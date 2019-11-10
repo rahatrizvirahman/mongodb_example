@@ -5,11 +5,24 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   </head>
   <body>
-    <h1>Hello world</h1>
-    <form method="POST" action="/person">
-      First name: <input type="text" id="firstname" name="firstname" /><br />
-      Last name: <input type="text" id="lastname" name="lastname" /><br />
-      <input type="submit" value="Submit" />
-    </form>
+    <div>
+      <h1>Hello world</h1>
+      <form method="POST" action="/person">
+        First name: <input type="text" id="firstname" name="firstname" /><br />
+        Last name: <input type="text" id="lastname" name="lastname" /><br />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+
+    <hr />
+    <hr />
+
+    <% for(let i = 0 ; i < users.length; i++) { console.log(users);%>
+    <div>
+      <p>First Name: <%= users[i].firstName %></p>
+      <p>Last Name: <%= users[i].lastName %></p>
+    </div>
+    <hr />
+    <% } %>
   </body>
 </html>

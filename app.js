@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const { UserModel } = require('./models/user');
 
 const app = express();
 
@@ -9,7 +10,7 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 
 mongoose.connect(
-  'mongodb+srv://user1:<987654321>@cluster0-t11g2.mongodb.net/test?retryWrites=true&w=majority',
+  'mongodb+srv://user1:987654321@cluster0-t11g2.mongodb.net/keepLearning?retryWrites=true&w=majority',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -19,24 +20,18 @@ mongoose.connect(
   () => console.log('connected to database!!')
 );
 
-app.get('/', (req, res) => {
-  return res.render('index');
+app.get('/', async (req, res) => {
+  const users = await UserModel.find();
+  return res.render('index', { users });
 });
 
-app.post('/person', (req, res) => {
-  return res.status(200).json({
-    success: true,
-    data: req.body
+app.post('/person', async (req, res) => {
+  const user = new UserModel({
+    firstName: req.body.firstname,
+    lastName: req.body.lastname
   });
+  await user.save();
+  return res.redirect('back');
 });
 
 app.listen(3000, () => console.log('Server is running on port 3000'));
-
-// const foodRouter = require('./routes/food_routes');
-
-// app.use('/', function(req, res, next) {
-//   console.log('Request Url: ' + req.url);
-//   next(); //It means run the next middleware.
-// });
-
-// foodRouter(app);
